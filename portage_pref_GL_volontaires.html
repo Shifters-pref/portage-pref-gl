@@ -194,7 +194,7 @@ main { flex:1; padding:24px 32px; max-width:900px; }
         <p>Volontaires par Groupe Local</p>
       </div>
     </div>
-    <div class="hm">Derni&#232;re mise &#224; jour<br><strong>09/09/2026 - 15h48</strong></div>
+    <div class="hm">Derni&#232;re mise &#224; jour<br><strong>09/09/2026 - 15h54</strong></div>
   </div>
 </header>
 <div class="sbar">
@@ -356,7 +356,10 @@ var editParam       = urlParams.get('edit');
 
 // --- Auth : liste des correspondants autorisés ---
 var authList = [];
-try { authList = JSON.parse(atob(AUTH_DATA_B64)); } catch(e) {}
+try {
+  var bytes = Uint8Array.from(atob(AUTH_DATA_B64), function(c) { return c.charCodeAt(0); });
+  authList = JSON.parse(new TextDecoder().decode(bytes));
+} catch(e) { console.warn('Auth data decode error:', e); }
 
 function verifierAuth(gl, email) {
   var g = gl.toLowerCase().trim();
